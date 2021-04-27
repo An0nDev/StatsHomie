@@ -8,4 +8,5 @@ class Bot:
     def run (self):
         self.client.run (self.config ["discord_bot_token"], bot = self.config ["discord_is_bot"])
     async def on_message (self, message):
-        print (message)
+        if message.content.startswith (self.config ["prefix"]):
+            print (message)
