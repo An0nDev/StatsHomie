@@ -26,4 +26,4 @@ class Config:
         self.__save ()
     def __save (self):
         with open (self.file_name, "w+") as out_file:
-            json.dump (self.config, out_file)
+            json.dump (self.__config, out_file)
