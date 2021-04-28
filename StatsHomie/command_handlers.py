@@ -215,7 +215,7 @@ class CommandHandlers:
             except predictions.ZeroSlopeError:
                 await message.reply (f"zero slope encountered when predicting your statistics, play a little and try again")
                 return False
-            first_line = f"**Stats at {future_spec ['humanized']} (timestamp is {timestamp}):**"
+            first_line = f"**Stats at {future_spec_info ['humanized']} (timestamp is {timestamp}):**"
         return await send_stats_printout (message = message, first_line = first_line, stats = out_stats)
     @staticmethod
     async def help (bot, message: discord.Message, *args):
