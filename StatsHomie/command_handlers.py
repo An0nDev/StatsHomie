@@ -1,3 +1,4 @@
+import datetime
 import math
 from typing import Tuple, Optional, Any, Callable
 
@@ -113,6 +114,9 @@ async def get_latest_stats (*, bot, message, uuid: str):
 def simplify_source_stats (*, source_stats: dict):
     return {requested_stat_name: requested_stat_info ["value_generator"] (source_stats) for requested_stat_name, requested_stat_info in wanted_stats.items ()}
 
+def humanize_timestamp (*, timestamp: float) -> str:
+    return datetime.datetime.utcfromtimestamp (timestamp).strftime ("%m/%d/%Y")
+
 NEWLINE = "\n"
 async def send_stats_printout (*, message: discord.Message, first_line: str, stats: dict):
     # await message.reply (f"lmao ur bad, only {stats ['final_kills_bedwars']} finals and {stats ['level']}*?")
@@ -215,7 +219,7 @@ class CommandHandlers:
             except predictions.ZeroSlopeError:
                 await message.reply (f"zero slope encountered when predicting your statistics, play a little and try again")
                 return False
-            first_line = f"**Stats at {future_spec_info ['humanized']} (timestamp is {timestamp}):**"
+            first_line = f"**Stats at {future_spec_info ['humanized']} (on {humanize_timestamp (timestamp = timestamp)}):**"
         return await send_stats_printout (message = message, first_line = first_line, stats = out_stats)
     @staticmethod
     async def help (bot, message: discord.Message, *args):
