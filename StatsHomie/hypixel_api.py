@@ -1,11 +1,9 @@
-from typing import Optional
-
 import requests
 
 def make_req (*, endpoint: str, uuid: str, api_key: str):
     return requests.get (f"https://api.hypixel.net{endpoint}", params = {"key": api_key, "uuid": uuid}).json ()
 
-def get_bedwars_stats (*, uuid: Optional [str] = None, api_key: str):
+def get_bedwars_stats (*, uuid: str = None, api_key: str):
     player_resp = make_req (endpoint = "/player", uuid = uuid, api_key = api_key)
     if not player_resp ["success"]:
         return False, player_resp ["cause"]

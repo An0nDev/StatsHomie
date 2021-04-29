@@ -1,5 +1,4 @@
-import time
-from typing import List, Optional
+from typing import Optional
 
 def simplify_command (*, message_content: str, prefix: str):
     if not message_content.startswith (prefix):
