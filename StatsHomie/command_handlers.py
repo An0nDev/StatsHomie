@@ -56,6 +56,11 @@ future_spec_suffixes = {
         "humanizer": lambda wlr: f"{STAT_DECIMAL_HUMANIZER_BASE (wlr)} wins per loss",
         "value_generator": lambda stats: stats ["wins_bedwars"] / stats ["losses_bedwars"]
     },
+    "bblr": {
+        "type": "stat",
+        "humanizer": lambda bblr: f"{STAT_DECIMAL_HUMANIZER_BASE (bblr)} beds broken per bed lost",
+        "value_generator": lambda stats: stats ["beds_broken_bedwars"] / stats ["beds_lost_bedwars"]
+    },
     "fk": {
         "type": "stat",
         "humanizer": lambda fk: f"{STAT_WHOLE_HUMANIZER_BASE (fk)} final kills",
@@ -65,6 +70,11 @@ future_spec_suffixes = {
         "type": "stat",
         "humanizer": lambda w: f"{STAT_WHOLE_HUMANIZER_BASE (w)} wins",
         "value_generator": lambda stats: stats ["wins_bedwars"]
+    },
+    "b": {
+        "type": "stat",
+        "humanizer": lambda b: f"{STAT_WHOLE_HUMANIZER_BASE (b)} beds broken",
+        "value_generator": lambda stats: stats ["beds_broken_bedwars"]
     }
 }
 
