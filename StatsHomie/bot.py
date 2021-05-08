@@ -20,7 +20,7 @@ class Bot:
             "future": {
                 "aliases": ["f"],
                 "description": "Shows information about stats at a date or statistic in the future. Uses your username if none is passed.\n" +
-                "Valid suffixes are `d` (days), `mo` (months), `y` (years), `*` (stars), `fkdr`, `wlr`, `fk` (final kills), `w` (wins).\n" +
+                "Valid suffixes are `d` (days), `mo` (months), `y` (years), `*` (stars), `fkdr`, `wlr`, `bblr`, `fk` (final kills), `w` (wins), `b` (beds).\n" +
                 "Fetch your statistics regularly for accurate predictions. (Statistics fetched for a username by anyone using any command are factored into any prediction for that username.)"
             },
             "help": {

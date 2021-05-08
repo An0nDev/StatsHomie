@@ -6,7 +6,7 @@ import discord
 
 import time
 
-from . import hypixel_api, dict_compressor, predictions
+from . import hypixel_api, dict_compressor, predictions, bedwars_calcs
 
 # following was extracted by printing keys of bedwars dictionary on 4/27/21
 # level is added from achievements
@@ -43,8 +43,8 @@ future_spec_suffixes = {
     },
     "*": {
         "type": "stat",
-        "humanizer": lambda stars: f"{STAT_WHOLE_HUMANIZER_BASE (stars)} stars",
-        "value_generator": lambda stats: stats ["level"]
+        "humanizer": lambda stars: f"{STAT_DECIMAL_HUMANIZER_BASE (stars)} stars",
+        "value_generator": lambda stats: bedwars_calcs.xp_to_level (xp = stats ["Experience"])
     },
     "fkdr": {
         "type": "stat",
