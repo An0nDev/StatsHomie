@@ -1,5 +1,7 @@
+import copy
 import datetime
 import math
+import pprint
 from typing import Tuple, Optional, Any, Callable
 
 import discord
@@ -98,12 +100,18 @@ def resolve_future_spec (*, future_spec: str):
 def stats_at_time (*, source_data: dict, target_timestamp: float, requested_stats: dict):
     interpolated_stats = {}
     for name, stat_info in requested_stats.items ():
-        source_data_for_stat = [(timestamp, stat_info ["value_generator"] (data_point)) for timestamp, data_point in source_data.items ()]
+        source_data_for_stat = []
+        for timestamp, data_point in source_data.items ():
+            try: source_data_for_stat.append ((timestamp, stat_info ["value_generator"] (data_point)))
+            except KeyError: pass
         interpolated_stats [name] = predictions.find_y_for_x (input_data = source_data_for_stat, x = target_timestamp)
     return interpolated_stats
 
 def time_and_stats_at_stat (*, source_data: dict, target_stat_value_generator: Callable, target_stat_value: float, requested_stats: dict):
-    source_data_for_stat = [(timestamp, target_stat_value_generator (data_point)) for timestamp, data_point in source_data.items ()]
+    source_data_for_stat = []
+    for timestamp, data_point in source_data.items ():
+        try: source_data_for_stat.append ((timestamp, target_stat_value_generator (data_point)))
+        except KeyError: pass
     timestamp = predictions.find_x_for_y (input_data = source_data_for_stat, y = target_stat_value)
     return timestamp, stats_at_time (source_data = source_data, target_timestamp = timestamp, requested_stats = requested_stats)
 
@@ -157,6 +165,28 @@ async def resolve_self_command (*, bot, message: discord.Message, args: Optional
             await message.reply ("you need to set your account to use this! (run the me command with your username)")
             return False, None
     return True, bot.storage ["discord_user_ids_to_minecraft_uuids"] [author_id]
+
+def normalize_data (data):
+    timestamps = list (data.keys ())
+    timestamps.sort ()
+    out_data = {}
+    first_timestamp = timestamps [0]
+    first_data = data [first_timestamp]
+    for timestamp in timestamps [1:]:
+        print (f"### NORMALIZING {timestamp} ###")
+        fixed_data = {}
+        for key, value in data [timestamp].items ():
+            if type (value) in (int, float):
+                normalized = value - first_data [key]
+                print (f"key {key}, first data {first_data [key]}, this data {value}: normalized {value} to {normalized}")
+                if normalized > 0: fixed_data [key] = normalized
+            else:
+                print (f"{value} (key {key}) is not int or float")
+        out_data [timestamp] = fixed_data
+    print (f"number of output points: {len (out_data.keys ())}")
+    for timestamp, data in out_data.items ():
+        if 'final_kills_bedwars' in data and 'final_deaths_bedwars' in data: print (f"at {timestamp}: {data ['final_kills_bedwars']} / {data ['final_deaths_bedwars']}")
+    return out_data
 
 class CommandHandlers:
     @staticmethod
@@ -220,6 +250,7 @@ class CommandHandlers:
         if not success:
             await message.reply (f"unable to resolve your specification of the future time or statistic")
             return False
+        source_data = normalize_data (source_data)
         if future_spec_info ["type"] == "timestamp":
             first_line = f"**Stats in {future_spec_info ['humanized']}:**"
             out_stats = stats_at_time (source_data = source_data, target_timestamp = future_spec_info ["ts"], requested_stats = wanted_stats)
