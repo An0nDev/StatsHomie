@@ -20,7 +20,7 @@ pip install discord.py requests --upgrade
 ```
 git clone https://github.com/An0nDev/StatsHomie && cd StatsHomie
 ```
-- Create a file called `storage.json` in the created folder `StatsHomie` and populate with the following information:
+- Create a file called `config.json` in the created folder `StatsHomie` and populate with the following information:
 ```json
 {
   "discord_bot_token": "DISCORD_BOT_TOKEN_HERE",
