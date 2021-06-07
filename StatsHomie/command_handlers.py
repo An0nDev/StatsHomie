@@ -243,14 +243,14 @@ class CommandHandlers:
         if not success: return False
 
         source_data = {float (_time): dict_compressor.DictCompressor.decompress (compressed = compressed_entry, _format = stats_compression_format) for _time, compressed_entry in bot.storage ["minecraft_uuids"] [uuid].items ()}
-        if not (len (source_data) > 1):
-            await message.reply (f"you need at least two data points! check back after playing for a bit")
-            return False
         success, future_spec_info = resolve_future_spec (future_spec = future_spec)
         if not success:
             await message.reply (f"unable to resolve your specification of the future time or statistic")
             return False
         source_data = normalize_data (source_data)
+        if not (len (source_data) > 1):
+            await message.reply (f"you need at least two data points! check back after playing for a bit")
+            return False
         if future_spec_info ["type"] == "timestamp":
             first_line = f"**Stats in {future_spec_info ['humanized']}:**"
             out_stats = stats_at_time (source_data = source_data, target_timestamp = future_spec_info ["ts"], requested_stats = wanted_stats)
