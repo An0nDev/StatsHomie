@@ -133,7 +133,10 @@ def simplify_source_stats (*, source_stats: dict):
     return {requested_stat_name: requested_stat_info ["value_generator"] (source_stats) for requested_stat_name, requested_stat_info in wanted_stats.items ()}
 
 def humanize_timestamp (*, timestamp: float) -> str:
-    return datetime.datetime.utcfromtimestamp (timestamp).strftime ("%m/%d/%Y")
+    try:
+        return datetime.datetime.utcfromtimestamp (timestamp).strftime ("%m/%d/%Y")
+    except ValueError as value_error:
+        return f"(date formatting error: {str (value_error)})"
 
 NEWLINE = "\n"
 async def send_stats_printout (*, message: discord.Message, first_line: str, stats: dict):
