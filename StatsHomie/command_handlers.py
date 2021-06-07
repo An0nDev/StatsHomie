@@ -267,7 +267,7 @@ class CommandHandlers:
         help_printout = [
             f"**StatsHomie**, written by <@199195868400713729>, hosted by <@{bot.config ['host_discord_user_id']}>",
             f"*Source code available at https://github.com/An0nDev/StatsHomie*",
-            f"*Invite this instance of the bot to your server with the following link: https://discord.com/oauth2/authorize?client_id={bot.client.user.id}&scope=bot*"
+            f"*Invite this instance of the bot to your server with the following link: https://discord.com/oauth2/authorize?client_id={bot.client.user.id}&scope=bot*",
             f"**Prefix:** `{bot.config ['prefix']}` (e.g. `{bot.config ['prefix']}.command_name arguments here`)",
             f"**Default command:** `{bot.command_database ['default']}` (e.g. `{bot.config ['prefix']}` is the same as  `{bot.config ['prefix']}.{bot.command_database ['default']}`",
             f"**Commands:**",
