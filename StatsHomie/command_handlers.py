@@ -247,9 +247,12 @@ class CommandHandlers:
         if not success:
             await message.reply (f"unable to resolve your specification of the future time or statistic")
             return False
-        source_data = normalize_data (source_data)
         if not (len (source_data) > 1):
             await message.reply (f"you need at least two data points! check back after playing for a bit")
+            return False
+        source_data = normalize_data (source_data)
+        if not (len (source_data) > 1):
+            await message.reply (f"you need at least two normalized data points! check back after playing for a bit")
             return False
         if future_spec_info ["type"] == "timestamp":
             first_line = f"**Stats in {future_spec_info ['humanized']}:**"
