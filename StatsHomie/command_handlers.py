@@ -180,6 +180,7 @@ def normalize_data (data):
         fixed_data = {}
         for key, value in data [timestamp].items ():
             if type (value) in (int, float):
+                if first_data [key] is None: continue
                 normalized = value - first_data [key]
                 print (f"key {key}, first data {first_data [key]}, this data {value}: normalized {value} to {normalized}")
                 if normalized > 0: fixed_data [key] = normalized
